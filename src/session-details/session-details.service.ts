@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { Departments, Designations, TeamLeads } from './entities/session-detail.entity';
+import { ApprovalTypes, Departments, Designations, Roles, SessionDetails, TeamLeads } from './entities/session-detail.entity';
 import { IMaster } from 'src/core/variables/interface';
 
 @Injectable()
@@ -15,6 +15,9 @@ export class SessionDetailsService {
 
     @InjectRepository(Designations)
     private designationsRepo: Repository<Designations>,
+
+    @InjectRepository(SessionDetails)
+    private sessionDetailsRepo: Repository<SessionDetails>
     
   ) {}
 
@@ -35,6 +38,19 @@ export class SessionDetailsService {
       teamLeadsDetails: teamLeadsDetails,
       designationDetails: designationDetails
     }
+  }
 
+  saveSessionDetails(data) {
+    return this.sessionDetailsRepo.save(data);
+  }
+
+  getSessionDetails() {
+    return this.sessionDetailsRepo.createQueryBuilder('sd')
+    .leftJoin(Departments, 'dept', 'dept.id = sd.departmentId')
+    .leftJoin(Designations, 'des', 'des.id = sd.designationId')
+    .leftJoin(TeamLeads, 'tl', 'tl.id = sd.leadId')
+    .leftJoin(ApprovalTypes, 'at', 'at.id = sd.approvalId')
+    .select(`sd.name as name, sd.topic as topic, sd.takingHrs as takingHrs, sd.date as date`)
+    .getRawMany();
   }
 }
