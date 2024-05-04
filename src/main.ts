@@ -5,7 +5,6 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  await app.listen(process.env.PORT);
   const configService: ConfigService = app.get(ConfigService);
   const express = require('express');
   app.enableCors(
@@ -13,19 +12,20 @@ async function bootstrap() {
       credentials: true,
       origin: true
     }
-  );
-
-  app.use(express.json({ limit: "50mb" }));
-  app.use(express.urlencoded({ limit: "50mb", extended: true }));
-  app.setGlobalPrefix("api");
-  const config = new DocumentBuilder()
+    );
+    
+    app.use(express.json({ limit: "50mb" }));
+    app.use(express.urlencoded({ limit: "50mb", extended: true }));
+    app.setGlobalPrefix("api");
+    const config = new DocumentBuilder()
     .addBearerAuth()
     .setTitle("sessionManagement")
     .setDescription("The sessionManagement API description")
     .setVersion("1.0")
     .addTag("sessionManagement")
     .build();
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup("apis", app, document);
+    const document = SwaggerModule.createDocument(app, config);
+    SwaggerModule.setup("apidoc", app, document);
+    await app.listen(process.env.PORT);
 }
 bootstrap();

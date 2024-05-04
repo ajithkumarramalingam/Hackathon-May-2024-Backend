@@ -5,6 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { WinstonModule } from 'nest-winston';
+import { SessionDetailsModule } from './session-details/session-details.module';
 import * as winston from 'winston';
 
 @Module({
@@ -52,6 +53,7 @@ import * as winston from 'winston';
         }),
       ],
     }),
+    SessionDetailsModule
   ],
   controllers: [AppController],
   providers: [AppService],
