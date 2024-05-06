@@ -7,6 +7,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { WinstonModule } from 'nest-winston';
 import { SessionDetailsModule } from './session-details/session-details.module';
 import * as winston from 'winston';
+import { NgxUiLoaderConfig } from 'ngx-ui-loader';
 
 @Module({
   imports: [

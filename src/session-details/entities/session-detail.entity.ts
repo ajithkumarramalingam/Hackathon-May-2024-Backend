@@ -62,6 +62,9 @@ export class Users {
     id: number;
 
     @Column({ nullable: true })
+    name: string;
+
+    @Column({ nullable: true })
     email: string;
 
     @Column({ nullable: true })
@@ -101,16 +104,13 @@ export class SessionDetails {
     id: number;
 
     @Column({ nullable: true })
-    name: string;
-
-    @Column({ nullable: true })
     topic: string;
 
     @Column({ nullable: true })
     takingHrs: number;
 
-    @Column({ nullable: true, type: 'date' })
-    date: Date;
+    @Column({ nullable: true })
+    date: string;
 
     @Column({ default: true })
     isActive: boolean;
